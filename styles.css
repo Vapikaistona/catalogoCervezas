@@ -1,0 +1,100 @@
+
+  body {
+    font-family: "Callie Chalk Font",Verdana,Helvetica,sans-serif;
+    color:rgb(255, 255, 255);
+    font-size:1.8rem;
+    background-image: url('./pizarra.jpeg'); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .verticalText {
+    text-orientation: upright;
+    writing-mode: vertical-rl; 
+  }
+  .tap {
+      border: rgb(255, 255, 255) solid;
+      border-width: 3px;
+      border-radius: 1em;
+      margin-bottom: 10px;
+  }
+
+.column {
+    float: left;
+
+    }
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+.logo {
+    padding-top: 20px;
+}
+.logo img {
+    border-radius: 1em;
+}
+.logo-julia {
+    position: absolute;
+    bottom: 0px;
+    right: 0;
+}
+.logo-julia img {
+    border-radius: 1em;
+}
+.flag  {
+    left: -54px;
+    position: relative;
+    top: 19px;
+    width: 0px;
+    float: left;
+}
+.flag img {
+    border-radius: 2em;
+}
+.verticalText{
+    width: 3%;
+    position: relative;
+    top: 90px;
+    left: -8px;
+}
+.images{
+    width: 15%;
+}
+.name-desc{
+    width: 55%;
+}
+.description {
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.681);
+}
+.info {
+    font-size: smaller;
+    width: 12%;
+    text-align: center;
+}
+.info p strong {
+    color: #8bc8bf
+}
+.style {
+    font-size: smaller;
+}
+.price {
+    width: 11%;
+    text-align: right;
+    font-size: smaller;
+    margin-top: 21px;
+}
+.euro {
+    padding-bottom: 10px;
+}
+.euro > strong {
+    text-align: right;
+    font-size: xx-large;
+    color: #91bbd3;
+}
+.euro p {
+    margin: 5px;
+}
