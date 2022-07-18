@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from "react";
- 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Input from '@mui/material/Input';
+import { Button } from "@mui/material";
+import ShowMoreText from "react-show-more-text";
+import Icon from '@mdi/react'
+import { mdiLiquor, mdiFlowerPollen, mdiStarCircle } from '@mdi/js'
+
 const Beer = (props) => (
- <tr>
-   <td>{props.beer.name}</td>
-   <td>{props.beer.breweryName}</td>
-   <td>{props.beer.style}</td>
-   <td>{props.beer.alchol}</td>
-   <td>{props.beer.ibu}</td>
-   <td>{props.beer.untappedMark.ratingScore}/{props.beer.untappedMark.ratingNumber}</td>
-   <td>{props.beer.description}</td>
- </tr>
+ <TableRow hover="true">
+   <TableCell>{props.beer.name}</TableCell>
+   <TableCell>{props.beer.breweryName}</TableCell>
+   <TableCell>{props.beer.style}</TableCell>
+   <TableCell>{props.beer.alchol}</TableCell>
+   <TableCell>{props.beer.ibu}</TableCell>
+   <TableCell>{props.beer.untappedMark.ratingScore}/{props.beer.untappedMark.ratingNumber}</TableCell>
+   <TableCell><ShowMoreText lines={2} more="Más." less="Menos.">{props.beer.description}</ShowMoreText></TableCell>
+ </TableRow>
 );
  
 export default function BeerList() {
@@ -52,22 +64,33 @@ export default function BeerList() {
  // This following section will display the table with the records of individuals.
  return (
    <div>
-     <h3>Beers List</h3>
-     <input placeholder="Enter Post Title" onChange={event => setQuery(event.target.value)} onKeyUp={handleKeyPress.bind(this)}/><button onClick={event => getBeers()}>Search</button>
-     <table className="table table-striped" style={{ marginTop: 20 }}>
-       <thead>
-         <tr>
-           <th>Name</th>
-           <th>Brewery</th>
-           <th>Style</th>
-           <th>Alchol</th>
-           <th>IBU</th>
-           <th>Rating</th>
-           <th>Description</th>
-         </tr>
-       </thead>
-       <tbody>{beerList()}</tbody>
-     </table>
+     <h3>Cervezas</h3>
+     <Paper>
+      <Input style={{ width: "80%" }} placeholder="Ejemplo: name=Majariega&sort=untappedMark.ratingScore>" onChange={event => setQuery(event.target.value)} onKeyUp={handleKeyPress.bind(this)}/><Button style={{ width: "20%" }} variant="contained" onClick={event => getBeers()}>Buscar</Button>
+     </Paper>
+     <TableContainer component={Paper}>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Nombre</TableCell>
+            <TableCell>Marca</TableCell>
+            <TableCell>Estilo</TableCell>
+            <TableCell><Icon path={mdiLiquor}
+              title="Alcohol"
+              color="#d78800"/></TableCell>
+            <TableCell><Icon path={mdiFlowerPollen}
+              title="IBUs"
+              color="#0fb100"/></TableCell>
+            <TableCell><Icon path={mdiStarCircle}
+              title="Puntuación"
+              size={1}
+              color="#ffcc00"/></TableCell>
+            <TableCell>Descripción</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{beerList()}</TableBody>
+      </Table>
+     </TableContainer>
    </div>
  );
 }
