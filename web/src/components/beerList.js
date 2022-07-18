@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
  
 const Beer = (props) => (
  <tr>
@@ -15,24 +14,30 @@ const Beer = (props) => (
  
 export default function BeerList() {
  const [beers, setBeers] = useState([]);
- 
+ const [query, setQuery] = useState("")
  // This method fetches the records from the database.
  useEffect(() => {
-   async function getBeers() {
-     const response = await fetch(`http://localhost:5000/beers`);
-     if (!response.ok) {
-       const message = `An error occurred: ${response.statusText}`;
-       window.alert(message);
-       return;
-     }
-     const beers = await response.json();
-     setBeers(beers);
-   }
    getBeers();
    return;
  }, [beers.length]);
- 
- 
+
+ function handleKeyPress(e) {
+  if (e.key === 'Enter') {
+    getBeers(); 
+  }
+}
+ async function getBeers() {
+  console.log(query);
+  const response = await fetch(`http://localhost:5000/beers?${query}`);
+  if (!response.ok) {
+    const message = `An error occurred: ${response.statusText}`;
+    window.alert(message);
+    return;
+  }
+  const beers = await response.json();
+  setBeers(beers);
+};
+
  // This method will map out the records on the table
  function beerList() {
    return beers.map((beer) => {
@@ -49,6 +54,7 @@ export default function BeerList() {
  return (
    <div>
      <h3>Beers List</h3>
+     <input placeholder="Enter Post Title" onChange={event => setQuery(event.target.value)} onKeyUp={handleKeyPress.bind(this)}/><button onClick={event => getBeers()}>Search</button>
      <table className="table table-striped" style={{ marginTop: 20 }}>
        <thead>
          <tr>

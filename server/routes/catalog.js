@@ -16,9 +16,11 @@ const ObjectId = require("mongodb").ObjectId;
 recordRoutes.route("/beers").get(function (req, res) {
  let db_connect = dbo.getDb();
  const query = req.query;
+ console.log(query)
  db_connect
    .collection("beers")
-   .find({...query})
+   .find({...normalizeQuery(query)})
+   .sort(getSorting(query))
    .limit(20)
    .toArray(function (err, result) {
      if (err) throw err;
@@ -26,6 +28,38 @@ recordRoutes.route("/beers").get(function (req, res) {
    });
 });
  
+function normalizeQuery(query) {
+  let cleanQuery = {};
+  Object.keys(query).forEach(element => {
+    if (['name', 'description', 'breweryName', 'style'].includes(element)) {
+      cleanQuery[element] = {$regex: new RegExp(`${query[element]}`)}
+    }
+    if (['alchol', 'ibu', 'ratingScore', 'ratingNumber'].includes(element)){
+      const queryItems = query[element].split(' ');
+      const operator = queryItems[0];
+      if (['ratingScore', 'ratingNumber'].includes(element)){
+        element = 'untappedMark.' + element;
+      }
+      cleanQuery[element] = {[operator]: parseFloat(queryItems[1])};
+    }
+  });
+  console.info(cleanQuery)
+  return cleanQuery;
+} 
+function getSorting(query){
+  let sort = {};
+  if(query.sort){
+    const sorting = query.sort.split(',');
+    sorting.forEach(element => {
+      const order = element[element.length - 1] === '>' ? 1 : -1;
+      const item = element.substr(0,element.length - 1);
+      sort[item] = order;
+    });
+  }
+  console.info(sort);
+  return sort;
+};
+
 // This section will help you get a single beer by id
 recordRoutes.route("/beers/:id").get(function (req, res) {
  let db_connect = dbo.getDb();
