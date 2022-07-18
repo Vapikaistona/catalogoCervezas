@@ -16,7 +16,6 @@ const ObjectId = require("mongodb").ObjectId;
 recordRoutes.route("/beers").get(function (req, res) {
  let db_connect = dbo.getDb();
  const query = req.query;
- console.log(query)
  db_connect
    .collection("beers")
    .find({...normalizeQuery(query)})
@@ -43,7 +42,6 @@ function normalizeQuery(query) {
       cleanQuery[element] = {[operator]: parseFloat(queryItems[1])};
     }
   });
-  console.info(cleanQuery)
   return cleanQuery;
 } 
 function getSorting(query){
@@ -56,7 +54,6 @@ function getSorting(query){
       sort[item] = order;
     });
   }
-  console.info(sort);
   return sort;
 };
 

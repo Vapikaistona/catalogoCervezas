@@ -27,7 +27,6 @@ export default function BeerList() {
   }
 }
  async function getBeers() {
-  console.log(query);
   const response = await fetch(`http://localhost:5000/beers?${query}`);
   if (!response.ok) {
     const message = `An error occurred: ${response.statusText}`;
