@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -13,13 +14,13 @@ import Icon from '@mdi/react'
 import { mdiLiquor, mdiFlowerPollen, mdiStarCircle } from '@mdi/js'
 
 const Beer = (props) => (
- <TableRow hover="true">
+ <TableRow hover="true" onClick={() => this.handleNavigation(props.beer.url)}>
    <TableCell>{props.beer.name}</TableCell>
-   <TableCell>{props.beer.breweryName}</TableCell>
    <TableCell>{props.beer.style}</TableCell>
    <TableCell>{props.beer.alchol}</TableCell>
    <TableCell>{props.beer.ibu}</TableCell>
-   <TableCell>{props.beer.untappedMark.ratingScore}/{props.beer.untappedMark.ratingNumber}</TableCell>
+   <TableCell>{props.beer.untappedMark.ratingScore}<br></br><span style={{color:'#b8b8b8'}}>{props.beer.untappedMark.ratingNumber}</span></TableCell>
+   <TableCell>{props.beer.breweryName}</TableCell>
    <TableCell><ShowMoreText lines={2} more="Más." less="Menos.">{props.beer.description}</ShowMoreText></TableCell>
  </TableRow>
 );
@@ -27,12 +28,15 @@ const Beer = (props) => (
 export default function BeerList() {
  const [beers, setBeers] = useState([]);
  const [query, setQuery] = useState("")
+ let navigate = useNavigate ();
  // This method fetches the records from the database.
  useEffect(() => {
    getBeers();
    return;
  }, [beers.length]);
-
+ function handleNavigation(url) {
+  navigate(url);
+ }
  function handleKeyPress(e) {
   if (e.key === 'Enter') {
     getBeers(); 
@@ -66,14 +70,13 @@ export default function BeerList() {
    <div>
      <h3>Cervezas</h3>
      <Paper>
-      <Input style={{ width: "80%" }} placeholder="Ejemplo: name=Majariega&sort=untappedMark.ratingScore>" onChange={event => setQuery(event.target.value)} onKeyUp={handleKeyPress.bind(this)}/><Button style={{ width: "20%" }} variant="contained" onClick={event => getBeers()}>Buscar</Button>
+      <Input style={{ width: "80%" }} placeholder="Ejemplo: name=Majariega&ibu=$gt 100&sort=untappedMark.ratingScore>" onChange={event => setQuery(event.target.value)} onKeyUp={handleKeyPress.bind(this)}/><Button style={{ width: "20%" }} variant="contained" onClick={event => getBeers()}>Buscar</Button>
      </Paper>
      <TableContainer component={Paper}>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Nombre</TableCell>
-            <TableCell>Marca</TableCell>
             <TableCell>Estilo</TableCell>
             <TableCell><Icon path={mdiLiquor}
               title="Alcohol"
@@ -85,6 +88,7 @@ export default function BeerList() {
               title="Puntuación"
               size={1}
               color="#ffcc00"/></TableCell>
+            <TableCell>Marca</TableCell>
             <TableCell>Descripción</TableCell>
           </TableRow>
         </TableHead>

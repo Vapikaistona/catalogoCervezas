@@ -31,7 +31,7 @@ function normalizeQuery(query) {
   let cleanQuery = {};
   Object.keys(query).forEach(element => {
     if (['name', 'description', 'breweryName', 'style'].includes(element)) {
-      cleanQuery[element] = {$regex: new RegExp(`${query[element]}`)}
+      cleanQuery[element] = {$regex: new RegExp(`${query[element]}`), '$options': 'i' }
     }
     if (['alchol', 'ibu', 'ratingScore', 'ratingNumber'].includes(element)){
       const queryItems = query[element].split(' ');
