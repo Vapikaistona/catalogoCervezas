@@ -43,7 +43,7 @@ export default function BeerList() {
   }
 }
  async function getBeers() {
-  const response = await fetch(`http://localhost:5000/beers?${query}`);
+  const response = await fetch(`http://192.168.86.36:5000/beers?${query}`);
   if (!response.ok) {
     const message = `An error occurred: ${response.statusText}`;
     window.alert(message);
